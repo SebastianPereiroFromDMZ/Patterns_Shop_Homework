@@ -1,10 +1,13 @@
 package shop;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
+
         DairyProducts products = new DairyProducts();
 
 
@@ -19,7 +22,8 @@ public class Main {
 
             switch (numberOfAction){
                 case 1:
-                    System.out.println(products.getProduct());
+
+                    System.out.println(products.toString((HashMap<Integer, Products>) products.getProduct()));
                     break;
                 case 2:
                     System.out.println();

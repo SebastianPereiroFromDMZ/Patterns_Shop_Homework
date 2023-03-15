@@ -11,17 +11,16 @@ public class DairyProducts extends Products {
 
     }
 
-    public DairyProducts(){
-
+    public DairyProducts() {
     }
 
-    public Collection<Products> getProduct() {
-        List<String> title = Arrays.asList("Молоко", "Творог", "Кефир", "Сметана");
+    public Map<Integer, Products> getProduct() {
+        List<String> title = Arrays.asList("Молоко", "Творог", "Кефир", "Сметана", "Масло", "Ряженка", "Сливки");
         List<String> manufacturer = Arrays.asList("Простоквашино", "Домик в деревне", "Вкуснотеево", "Село", "Фермерское");
 
-        Collection<Products> productsCollections = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            productsCollections.add(new DairyProducts(
+        Map<Integer, Products> productsCollections = new HashMap<>();
+        for (int i = 0; i < title.size(); i++) {
+            productsCollections.put(i + 1, new DairyProducts(
                     title.get(new Random().nextInt(title.size())),
                     new Random().nextInt(200),
                     manufacturer.get(new Random().nextInt(manufacturer.size()))
@@ -30,11 +29,22 @@ public class DairyProducts extends Products {
         return productsCollections;
     }
 
-    @Override
-    public String toString() {
-        return "{" + title + '\'' +
-                ", цена=" + count +
-                ", производитель='" + Manufacturer + '\'' +
-                '}' + "\n";
+
+    public String toString(HashMap<Integer, Products> productsHashMap) {
+        StringBuilder sb = new StringBuilder("Молочный отдел : \n");
+        for (Map.Entry<Integer, Products> entry : productsHashMap.entrySet()) {
+            Integer key = entry.getKey();
+            Products value = entry.getValue();
+
+            sb
+                    .append("[ ")
+                    .append("Номер продукта: ").append(key).append("\t")
+                    .append("Наименование: ").append(value.getTitle()).append("\t")
+                    .append("Цена: ").append(value.getCount()).append("\t")
+                    .append("Производитель товара: ").append(value.getManufacturer())
+                    .append(" ]")
+                    .append("\n");
+        }
+        return sb.toString();
     }
 }
