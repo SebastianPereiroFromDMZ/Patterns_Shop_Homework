@@ -1,6 +1,7 @@
 package shop;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +9,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-        DairyProducts products = new DairyProducts();
+        Goods milk = new DairyProducts();
+        Goods meet = new Meet();
 
 
         System.out.println("Добро пожаловать в наш магазин");
@@ -18,15 +20,19 @@ public class Main {
         printAction();
         int numberOfAction = scanner.nextInt();
 
-        while (true){
+        Map<Integer, Products> miiilk = milk.getGoods();
 
-            switch (numberOfAction){
+        while (true) {
+
+            switch (numberOfAction) {
                 case 1:
-
-                    System.out.println(products.toString((HashMap<Integer, Products>) products.getProduct()));
+                    System.out.println(milk.toString((HashMap<Integer, Products>) miiilk));
+                    System.out.println(meet.toString((HashMap<Integer, Products>) (meet).getGoods()));
                     break;
                 case 2:
-                    System.out.println();
+                    milk.filter(miiilk, 20);
+                    System.out.println(milk.filter(miiilk, 20));
+
                     break;
                 case 3:
                     System.out.println();
@@ -56,12 +62,10 @@ public class Main {
         }
 
 
-
-
     }
 
 
-    public static void printAction(){
+    public static void printAction() {
         System.out.println("\n" +
                 "1 - Вывод доступных для покупки товаров\n" +
                 "2 - Фильтрация товаров по ключевым словам, ценам, производителям\n" +

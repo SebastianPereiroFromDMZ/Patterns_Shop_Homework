@@ -1,6 +1,9 @@
 package shop;
 
-public class Products {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Products implements Goods {
 
     protected String title;
     protected int count;
@@ -15,7 +18,6 @@ public class Products {
 
 
     public Products(){
-
     }
 
     public String getTitle() {
@@ -30,12 +32,32 @@ public class Products {
         return Manufacturer;
     }
 
+
+    public String toString(HashMap<Integer, Products> products) {
+        StringBuilder sb = new StringBuilder("Продукты : \n");
+        for (Map.Entry<Integer, Products> entry : products.entrySet()) {
+            Integer key = entry.getKey();
+            Products value = entry.getValue();
+
+            sb
+                    .append("[ ")
+                    .append("Номер продукта: ").append(key).append("\t")
+                    .append("Наименование: ").append(value.getTitle()).append("\t")
+                    .append("Цена: ").append(value.getCount()).append("\t")
+                    .append("Производитель товара: ").append(value.getManufacturer())
+                    .append(" ]")
+                    .append("\n");
+        }
+        return sb.toString();
+    }
+
     @Override
-    public String toString() {
-        return "Products{" +
-                "title='" + title + '\'' +
-                ", count=" + count +
-                ", Manufacturer='" + Manufacturer + '\'' +
-                '}';
+    public Map<Integer, Products> getGoods() {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, Products> filter(Map<Integer, Products> products, Integer maxPrice) {
+        return null;
     }
 }

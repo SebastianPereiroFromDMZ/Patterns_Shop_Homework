@@ -2,7 +2,7 @@ package shop;
 
 import java.util.*;
 
-public class DairyProducts extends Products {
+public class DairyProducts extends Products implements Goods {
 
 
     public DairyProducts(String title, int count, String manufacturer) {
@@ -13,9 +13,9 @@ public class DairyProducts extends Products {
 
     public DairyProducts() {
     }
-
-    public Map<Integer, Products> getProduct() {
-        List<String> title = Arrays.asList("Молоко", "Творог", "Кефир", "Сметана", "Масло", "Ряженка", "Сливки");
+    @Override
+    public Map<Integer, Products> getGoods() {
+        List<String> title = Arrays.asList("Молоко", "Творог", "Кефир ", "Сметана", "Масло ", "Ряженка", "Сливки");
         List<String> manufacturer = Arrays.asList("Простоквашино", "Домик в деревне", "Вкуснотеево", "Село", "Фермерское");
 
         Map<Integer, Products> productsCollections = new HashMap<>();
@@ -29,22 +29,22 @@ public class DairyProducts extends Products {
         return productsCollections;
     }
 
-
-    public String toString(HashMap<Integer, Products> productsHashMap) {
-        StringBuilder sb = new StringBuilder("Молочный отдел : \n");
-        for (Map.Entry<Integer, Products> entry : productsHashMap.entrySet()) {
+    @Override
+    public Map<Integer, Products> filter(Map<Integer, Products> products, Integer maxPrice) {
+        Map<Integer, Products> filterProducts = new HashMap<>();
+        for (Map.Entry<Integer, Products> entry : products.entrySet()){
             Integer key = entry.getKey();
-            Products value = entry.getValue();
-
-            sb
-                    .append("[ ")
-                    .append("Номер продукта: ").append(key).append("\t")
-                    .append("Наименование: ").append(value.getTitle()).append("\t")
-                    .append("Цена: ").append(value.getCount()).append("\t")
-                    .append("Производитель товара: ").append(value.getManufacturer())
-                    .append(" ]")
-                    .append("\n");
+            Products product = entry.getValue();
+            int value = entry.getValue().getCount();
+            if (value < maxPrice){
+                filterProducts.put(key, product);
+            }
         }
-        return sb.toString();
+        return filterProducts;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
