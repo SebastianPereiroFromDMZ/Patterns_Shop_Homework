@@ -1,5 +1,7 @@
 package shop;
 
+import jdk.jfr.consumer.RecordedFrame;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -9,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        Goods milk = new DairyProducts();
+        Goods dairyDepartment = new DairyProducts();
         Goods meet = new Meet();
 
 
@@ -20,18 +22,32 @@ public class Main {
         printAction();
         int numberOfAction = scanner.nextInt();
 
-        Map<Integer, Products> miiilk = milk.getGoods();
+        Map<Integer, Products> milk = dairyDepartment.getGoods();
+        Map<Integer, Products> meeet = meet.getGoods();
 
         while (true) {
 
             switch (numberOfAction) {
                 case 1:
-                    System.out.println(milk.toString((HashMap<Integer, Products>) miiilk));
+                    System.out.println(dairyDepartment.toString((HashMap<Integer, Products>) milk));
                     System.out.println(meet.toString((HashMap<Integer, Products>) (meet).getGoods()));
                     break;
                 case 2:
-                    milk.filter(miiilk, 20);
-                    System.out.println(milk.filter(miiilk, 20));
+                    System.out.println("Какой отдел вы хотите отфильтровать?\n" +
+                            "Отделы:\n" +
+                            "1 - Молочный отдел\n" +
+                            "2 - Мясной отдел\n" +
+                            "3 - Бытовая химия\n");
+                    int departmentNumber = scanner.nextInt();
+                    if (departmentNumber == 1) {
+                        printNumberOfFilter();
+
+
+                    }
+
+                    milk = dairyDepartment.filter(milk, 50);
+                    System.out.println(dairyDepartment.toString((HashMap<Integer, Products>) milk));
+
 
                     break;
                 case 3:
@@ -75,5 +91,13 @@ public class Main {
                 "6 - Система рейтинга для товаров\n" +
                 "7 - Простая рекомендательная система для покупок \n" +
                 "0 - Для выхода из магазина");
+    }
+
+    public static void printNumberOfFilter() {
+        System.out.println("Как вы хотите отфильтровать товары?\n " +
+                "варианты фиитрации:\n " +
+                "1 - По цене\n" +
+                " 2 - По ключевым словам \n" +
+                " 3 - По производителям\n");
     }
 }

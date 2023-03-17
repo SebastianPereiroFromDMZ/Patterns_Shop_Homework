@@ -9,7 +9,6 @@ public class Meet extends Products implements Goods{
     }
 
     public Meet(){
-
     }
 
     @Override
