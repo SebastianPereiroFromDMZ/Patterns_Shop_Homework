@@ -1,7 +1,5 @@
 package shop;
 
-import jdk.jfr.consumer.RecordedFrame;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,7 +10,8 @@ public class Main {
 
 
         Goods dairyDepartment = new DairyProducts();
-        Goods meet = new Meet();
+        Goods meatSection = new Meat();
+        ShoppingBasket shoppingBasket = new ShoppingBasketImpl();
 
 
         System.out.println("Добро пожаловать в наш магазин");
@@ -23,14 +22,16 @@ public class Main {
         int numberOfAction = scanner.nextInt();
 
         Map<Integer, Products> milk = dairyDepartment.getGoods();
-        Map<Integer, Products> meeet = meet.getGoods();
+        Map<Integer, Products> meat = meatSection.getGoods();
+        HashMap<Integer, Products> basket = new HashMap<>();
+
 
         while (true) {
 
             switch (numberOfAction) {
                 case 1:
                     System.out.println(dairyDepartment.toString((HashMap<Integer, Products>) milk));
-                    System.out.println(meet.toString((HashMap<Integer, Products>) (meet).getGoods()));
+                    System.out.println(meatSection.toString((HashMap<Integer, Products>) meat));
                     break;
                 case 2:
                     System.out.println("Какой отдел вы хотите отфильтровать?\n" +
@@ -41,17 +42,84 @@ public class Main {
                     int departmentNumber = scanner.nextInt();
                     if (departmentNumber == 1) {
                         printNumberOfFilter();
-
-
+                        int filter = scanner.nextInt();
+                        if (filter == 1) {
+                            System.out.println("Укажите максимальную цену для фильтрации");
+                            int filterPrice = scanner.nextInt();
+                            milk = dairyDepartment.filterPrice(milk, filterPrice);
+                            System.out.println("Отсортированный по цене список молочных продуктов: " +
+                                    dairyDepartment.toString((HashMap<Integer, Products>) milk));
+                            break;
+                        } else if (filter == 2) {
+                            System.out.println("Укажите какого производиделя вы хотите приобрести молочные продукты");
+                            Scanner sc = new Scanner(System.in);
+                            String filterManufacturer = sc.nextLine();
+                            milk = dairyDepartment.filterManufacturer(milk, filterManufacturer);
+                            System.out.println("Отсортированный по производителю список молочных продуктов: " +
+                                    dairyDepartment.toString((HashMap<Integer, Products>) milk));
+                            break;
+                        } else if (filter == 3) {
+                            System.out.println("Укажите что именно вы хотите преобрести");
+                            Scanner sc = new Scanner(System.in);
+                            String filterKeyword = sc.nextLine();
+                            milk = dairyDepartment.filterKeyword(milk, filterKeyword);
+                            System.out.println("Отсортированный по наименованию список молочных продуктов: " +
+                                    dairyDepartment.toString((HashMap<Integer, Products>) milk));
+                            break;
+                        } else {
+                            System.out.println("Неправильный ввод, попробуйте снова\n");
+                            continue;
+                        }
+                    } else if (departmentNumber == 2) {
+                        printNumberOfFilter();
+                        int filter = scanner.nextInt();
+                        if (filter == 1) {
+                            System.out.println("Укажите максимальную цену для фильтрации");
+                            int filterPrice = scanner.nextInt();
+                            meat = dairyDepartment.filterPrice(meat, filterPrice);
+                            System.out.println("Отсортированный по цене список мясных продуктов: " +
+                                    dairyDepartment.toString((HashMap<Integer, Products>) meat));
+                            break;
+                        } else if (filter == 2) {
+                            System.out.println("Укажите какого производиделя вы хотите приобрести мясные продукты");
+                            Scanner sc = new Scanner(System.in);
+                            String filterManufacturer = sc.nextLine();
+                            meat = dairyDepartment.filterManufacturer(meat, filterManufacturer);
+                            System.out.println("Отсортированный по производителю список мясных продуктов: " +
+                                    dairyDepartment.toString((HashMap<Integer, Products>) meat));
+                            break;
+                        } else if (filter == 3) {
+                            System.out.println("Укажите что именно вы хотите преобрести");
+                            Scanner sc = new Scanner(System.in);
+                            String filterKeyword = sc.nextLine();
+                            meat = dairyDepartment.filterKeyword(meat, filterKeyword);
+                            System.out.println("Отсортированный по наименованию список мясных продуктов: " +
+                                    dairyDepartment.toString((HashMap<Integer, Products>) meat));
+                            break;
+                        } else {
+                            System.out.println("Неправильный ввод, попробуйте снова\n");
+                            continue;
+                        }
                     }
-
-                    milk = dairyDepartment.filter(milk, 50);
-                    System.out.println(dairyDepartment.toString((HashMap<Integer, Products>) milk));
 
 
                     break;
                 case 3:
-                    System.out.println();
+                    printShoppingDepartments();
+                    int numberDepartments = scanner.nextInt();
+                    if (numberDepartments == 1) {
+                        System.out.println("Выбирите товары из молочного отдела которые желаете приобрести");
+                        int productNumber = scanner.nextInt();
+                        System.out.println("Укажите количество этого товара");
+                        int count = scanner.nextInt();
+                        Map<Integer, Products> bbaask;
+                        bbaask = shoppingBasket.addProduct(milk, productNumber, count);
+                        System.out.println(bbaask);
+                        addToBasket(bbaask, basket);
+                        System.out.println(shoppingBasket.toString(basket));
+                        continue;
+
+                    }
                     break;
                 case 4:
                     System.out.println();
@@ -95,9 +163,29 @@ public class Main {
 
     public static void printNumberOfFilter() {
         System.out.println("Как вы хотите отфильтровать товары?\n " +
-                "варианты фиитрации:\n " +
-                "1 - По цене\n" +
-                " 2 - По ключевым словам \n" +
-                " 3 - По производителям\n");
+                "Варианты фиитрации:\n" +
+                " 1 - По цене\n" +
+                " 2 - По производителям \n" +
+                " 3 - По ключевым словам\n");
+    }
+
+    public static void printShoppingDepartments() {
+        System.out.println("Из какого отдела вы хотите купить товары?\n" +
+                "1 - Молочный отдел\n" +
+                "2 - Мясо\n" +
+                "3 - Бытовая химия\n" +
+                "0 - Завершение покупок\n");
+    }
+
+    public static Map<Integer, Products> addToBasket(Map<Integer, Products> productsToBasket, Map<Integer, Products> basket) {
+        int key = basket.size() + 1;
+
+        for (Map.Entry<Integer, Products> entry : productsToBasket.entrySet()) {
+
+            Products product = entry.getValue();
+            basket.put(key, product);
+            key = key + 1;
+        }
+        return basket;
     }
 }

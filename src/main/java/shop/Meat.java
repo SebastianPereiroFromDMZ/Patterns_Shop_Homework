@@ -2,22 +2,22 @@ package shop;
 
 import java.util.*;
 
-public class DairyProducts extends Products implements Goods {
+public class Meat extends Products implements Goods{
 
     private String title;
     private int count;
     private String manufacturer;
 
-    List<String> listMilkProduct = Arrays.asList("Молоко", "Творог", "Кефир", "Сметана", "Масло", "Ряженка", "Сливки");
-    List<String> listManufacturer = Arrays.asList("Простоквашино", "Домик в деревне", "Вкуснотеево", "Село", "Фермерское");
+    List<String> listMeatProduct = Arrays.asList("Курица", "Индейка", "Свинина", "Говядина", "Баранина", "Кролик", "Утка");
+    List<String> listManufacturer = Arrays.asList("Дымов", "Мираторг", "Микоян", "Село", "Фермерское");
 
-    public DairyProducts(String title, int count, String manufacturer) {
+    public Meat(String title, int count, String manufacturer) {
         this.title = title;
         this.count = count;
         this.manufacturer = manufacturer;
     }
 
-    public DairyProducts() {
+    public Meat(){
     }
 
     @Override
@@ -54,11 +54,10 @@ public class DairyProducts extends Products implements Goods {
     public Map<Integer, Products> getGoods() {
 
         Map<Integer, Products> productsCollections = new HashMap<>();
-
-        for (int i = 0; i < listMilkProduct.size(); i++) {
-            productsCollections.put(i + 1, new DairyProducts(
-                    listMilkProduct.get(new Random().nextInt(listMilkProduct.size())),
-                    new Random().nextInt(200),
+        for (int i = 0; i < listMeatProduct.size(); i++) {
+            productsCollections.put(i + 1, new Meat(
+                    listMeatProduct.get(new Random().nextInt(listMeatProduct.size())),
+                    new Random().nextInt(500),
                     listManufacturer.get(new Random().nextInt(listManufacturer.size()))
             ));
         }
@@ -75,13 +74,14 @@ public class DairyProducts extends Products implements Goods {
         return super.filterManufacturer(products, manufacturer);
     }
 
+    @Override
     public Map<Integer, Products> filterKeyword(Map<Integer, Products> products, String keyword) {
         return super.filterKeyword(products, keyword);
     }
 
     @Override
     public String toString(HashMap<Integer, Products> products) {
-        StringBuilder sb = new StringBuilder("Молочный отдел : \n");
+        StringBuilder sb = new StringBuilder("Мясной отдел : \n");
         for (Map.Entry<Integer, Products> entry : products.entrySet()) {
             Integer key = entry.getKey();
             Products value = entry.getValue();
@@ -98,4 +98,3 @@ public class DairyProducts extends Products implements Goods {
         return sb.toString();
     }
 }
-

@@ -3,61 +3,81 @@ package shop;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Products implements Goods {
+public abstract class Products  {
 
-    protected String title;
-    protected int count;
-    protected String Manufacturer;
-
-    public Products(String title, int count, String manufacturer) {
-        this.title = title;
-        this.count = count;
-        Manufacturer = manufacturer;
-    }
+    private String title;
+    private int count;
+    private String manufacturer;
 
 
 
-    public Products(){
-    }
+    public abstract String getTitle();
 
-    public String getTitle() {
-        return title;
-    }
+    public abstract int getCount();
 
-    public int getCount() {
-        return count;
-    }
+    public abstract String getManufacturer();
 
-    public String getManufacturer() {
-        return Manufacturer;
-    }
+    public abstract void setTitle(String title);
 
 
-    public String toString(HashMap<Integer, Products> products) {
-        StringBuilder sb = new StringBuilder("Продукты : \n");
+    public abstract void setCount(int count);
+
+    public abstract void setManufacturer(String manufacturer);
+
+    public Map<Integer, Products> filterPrice(Map<Integer, Products> products, Integer maxPrice) {
+
+        Map<Integer, Products> filterProducts = new HashMap<>();
+
         for (Map.Entry<Integer, Products> entry : products.entrySet()) {
             Integer key = entry.getKey();
-            Products value = entry.getValue();
-
-            sb
-                    .append("[ ")
-                    .append("Номер продукта: ").append(key).append("\t")
-                    .append("Наименование: ").append(value.getTitle()).append("\t")
-                    .append("Цена: ").append(value.getCount()).append("\t")
-                    .append("Производитель товара: ").append(value.getManufacturer())
-                    .append(" ]")
-                    .append("\n");
+            Products product = entry.getValue();
+            int value = entry.getValue().getCount();
+            if (value < maxPrice) {
+                filterProducts.put(key, product);
+            }
         }
-        return sb.toString();
+        return filterProducts;
     }
 
-    @Override
-    public Map<Integer, Products> getGoods() {
-        return null;
+
+    public Map<Integer, Products> filterManufacturer(Map<Integer, Products> products, String manufacturer) {
+
+        int key = 1;
+
+        Map<Integer, Products> filterProducts = new HashMap<>();
+
+        for (Map.Entry<Integer, Products> entry : products.entrySet()) {
+            Products product = entry.getValue();
+            String value = entry.getValue().getManufacturer();
+            if (manufacturer.equalsIgnoreCase(value)) {
+                filterProducts.put(key, product);
+                key = key + 1;
+            }
+        }
+        return filterProducts;
     }
 
-    @Override
-    public Map<Integer, Products> filter(Map<Integer, Products> products, Integer maxPrice) {
-        return null;
+    public Map<Integer, Products> filterKeyword(Map<Integer, Products> products, String keyword) {
+
+        int key = 1;
+
+        Map<Integer, Products> filterProducts = new HashMap<>();
+
+        for (Map.Entry<Integer, Products> entry : products.entrySet()) {
+            Products product = entry.getValue();
+            String value = entry.getValue().getTitle();
+            if (keyword.equalsIgnoreCase(value)) {
+                filterProducts.put(key, product);
+                key = key + 1;
+
+            }
+        }
+        return filterProducts;
     }
 }
+
+
+
+
+
+
