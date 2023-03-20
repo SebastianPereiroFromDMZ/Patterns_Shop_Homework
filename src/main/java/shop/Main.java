@@ -12,6 +12,7 @@ public class Main {
         Goods dairyDepartment = new DairyProducts();
         Goods meatSection = new Meat();
         ShoppingBasket shoppingBasket = new ShoppingBasketImpl();
+        OrderSystem orderSystem = new OrderSystem();
 
 
         System.out.println("Добро пожаловать в наш магазин");
@@ -141,18 +142,18 @@ public class Main {
                         System.out.println("Вы ввели неверный индекс, попробуйте еще");
                         continue;
                     }
-
                 case 4:
-                    System.out.println();
+                    orderSystem.handedOverToTheCourier(basket);
+                    orderSystem.courierOnTheWayToYou();
                     break;
                 case 5:
-                    System.out.println();
+                    System.out.println("Возврат заказа, повтороение заказа");
                     break;
                 case 6:
-                    System.out.println();
+                    System.out.println("Система рейтинга для товаров");
                     break;
                 case 7:
-                    System.out.println();
+                    System.out.println("Простая рекомендательная система для покупок");
                     break;
                 case 0:
                     System.out.println("Спасибо за покупки");
