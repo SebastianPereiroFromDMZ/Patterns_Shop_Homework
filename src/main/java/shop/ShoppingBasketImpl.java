@@ -22,7 +22,8 @@ public class ShoppingBasketImpl implements ShoppingBasket {
 
     @Override
     public Map<Integer, Products> deleteProduct(Map<Integer, Products> products, int numberProduct) {
-        return null;
+        products.remove(numberProduct);
+        return products;
     }
 
     @Override
