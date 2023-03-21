@@ -1,18 +1,20 @@
 package shop;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 
         Goods dairyDepartment = new DairyProducts();
         Goods meatSection = new Meat();
         ShoppingBasket shoppingBasket = new ShoppingBasketImpl();
         OrderSystem orderSystem = new OrderSystem();
+        Courier courier = new Courier();
 
 
         System.out.println("Добро пожаловать в наш магазин");
@@ -102,7 +104,6 @@ public class Main {
                             continue;
                         }
                     }
-
                     break;
                 case 3:
                     printShoppingDepartments();
@@ -143,8 +144,14 @@ public class Main {
                         continue;
                     }
                 case 4:
-                    orderSystem.handedOverToTheCourier(basket);
+                    orderSystem.handedOverToTheCourier(basket, courier.getCourier());
                     orderSystem.courierOnTheWayToYou();
+                    orderSystem.theOrderHasBeenDelivered();
+                    System.out.println("Поставть пожалуйска оценку курьеру от 1 до 5");
+                    Scanner sc = new Scanner(System.in);
+                    int estimation = sc.nextInt();
+                    courier.addToRating(estimation, courier.getListRating() );
+                    System.out.println("Обновленный рейтинг курьера: " + courier.calculatingTheRating());
                     break;
                 case 5:
                     System.out.println("Возврат заказа, повтороение заказа");
