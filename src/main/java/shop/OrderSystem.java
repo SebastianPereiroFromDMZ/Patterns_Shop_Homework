@@ -16,16 +16,16 @@ public class OrderSystem {
         System.out.println("Ваш заказ:\n"
                 + shoppingBasket.toString((HashMap<Integer, Products>) basket) +
                 "Был передан курьеру :  " + courier + " В " + formatForDateNow.format(dateNow) + "\n");
-        //Thread.sleep(10000);
+        Thread.sleep(10000);
     }
 
     public void courierOnTheWayToYou() throws InterruptedException {
         System.out.println("Курьер уже на пути к вам " + formatForDateNow.format(dateNow) + "\n");
-        //Thread.sleep(10000);
+        Thread.sleep(10000);
     }
 
     public void theOrderHasBeenDelivered() throws InterruptedException {
         System.out.println("Заказ доставлен " + formatForDateNow.format(dateNow) + "\n");
-        //Thread.sleep(5000);
+        Thread.sleep(5000);
     }
 }
